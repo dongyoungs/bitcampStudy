@@ -14,3 +14,5 @@ plugins {
 
 rootProject.name = 'myapp'
 include('app')
+include('app-08')
+include('app-09')
