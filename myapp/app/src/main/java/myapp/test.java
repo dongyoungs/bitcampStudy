@@ -1,18 +1,41 @@
 package myapp;
 
-import util.Calculator;
-
+//0) 낱개 변수 사용
+//
 public class test {
   public static void main(String[] args) {
-    // 2 * 3 + 7 - 2 / 2 = ?
-    // --> 연산자 우선 순위를고려하지 않고 앞에서부터 뒤로 순차적으로 계산
-    // Calculator cal = new Calculator();
-    Calculator.init(2);
-    Calculator.multiple(3);
-    Calculator.plus(7); // 13
-    Calculator.minus(2); // 11
-    Calculator.devide(2); // 5
-    System.out.println(Calculator.result);
-  }
+    String name;
+    int kor;
+    int eng;
+    int math;
+    int sum;
+    float aver;
 
+    name = "홍길동";
+    kor = 100;
+    eng = 90;
+    math = 85;
+    sum = kor + eng + math;
+    aver = (float) sum / 3;
+
+    System.out.printf("%s: %d, %d, %d, %d, %.1f\n", name, kor, eng, math, sum, aver);
+
+    name = "임꺽정";
+    kor = 90;
+    eng = 80;
+    math = 75;
+    sum = kor + eng + math;
+    aver = (float) sum / 3;
+
+    System.out.printf("%s: %d, %d, %d, %d, %.1f\n", name, kor, eng, math, sum, aver);
+
+    name = "유관순";
+    kor = 80;
+    eng = 70;
+    math = 65;
+    sum = kor + eng + math;
+    aver = (float) sum / 3;
+
+    System.out.printf("%s: %d, %d, %d, %d, %.1f\n", name, kor, eng, math, sum, aver);
+  }
 }
