@@ -14,8 +14,6 @@ public class MemberHandler {
   // static char[] gender = new char[MAX_SIZE];
   static int userId = 1;
   static int length = 0;
-  static final char MALE = 'M';
-  static final char FEMALE = 'W';
 
   public static void inputMember() {
     Member m = new Member();
@@ -26,7 +24,7 @@ public class MemberHandler {
     m.setNo(userId++);
 
     // 위에서 만든 Member 인스턴스의 주소를 잃어버리지 않게
-    // 레퍼런스 배령레 담는다.
+    // 레퍼런스 배열에 담는다.
     members[length++] = m;
   }
 
@@ -107,10 +105,10 @@ public class MemberHandler {
 
       switch (menuNo) {
         case "1": {
-          return MALE;
+          return Member.MALE;
         }
         case "2": {
-          return FEMALE;
+          return Member.FEMALE;
         }
         default:
           System.out.println("무효한 번호입니다.");
