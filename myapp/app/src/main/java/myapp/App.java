@@ -1,7 +1,8 @@
 package myapp;
 
-import util.Prompt;
+import myapp.handler.BoardHandler;
 import myapp.handler.MemberHandler;
+import util.Prompt;
 
 // 코드 본문에서 사용할 클래스가 어떤 패키지의 클래스인지 저장한다.
 
@@ -15,7 +16,7 @@ public class App {
 
     while (true) {
       String menuNo = Prompt.inputString("메인> ");
-      if (menuNo.equals("6")) {
+      if (menuNo.equals("99")) {
         break;
       } else if (menuNo.equals("menu")) {
         printMenu();
@@ -29,6 +30,16 @@ public class App {
         MemberHandler.updateMember();
       } else if (menuNo.equals("5")) {
         MemberHandler.deleteMember();
+      } else if (menuNo.equals("6")) {
+        BoardHandler.inputBoard();
+      } else if (menuNo.equals("7")) {
+        BoardHandler.printBoards();
+      } else if (menuNo.equals("8")) {
+        //BoardHandler.viewBoard();
+      } else if (menuNo.equals("9")) {
+        //BoardHandler.updateBoard();
+      } else if (menuNo.equals("10")) {
+        //BoardHandler.deleteBoard();
       } else {
         System.out.println(menuNo);
       }
@@ -52,7 +63,12 @@ public class App {
     System.out.println("3. 회원조회");
     System.out.println("4. 회원변경");
     System.out.println("5. 회원삭제");
-    System.out.println("6. 종료");
+    System.out.println("6. 게시글등록");
+    System.out.println("7. 게시글목록");
+    System.out.println("8. 게시글조회");
+    System.out.println("9. 게시글변경");
+    System.out.println("10. 게시글삭제");
+    System.out.println("99. 종료");
   }
 
   static void printTitle() {
