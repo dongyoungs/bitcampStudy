@@ -1,78 +1,89 @@
 package myapp;
 
-import myapp.handler.BoardHandler;
-import myapp.handler.MemberHandler;
-import util.Prompt;
-
-// 코드 본문에서 사용할 클래스가 어떤 패키지의 클래스인지 저장한다.
+import myapp.dao.BoardDao;
+import myapp.dao.BoardListDao;
+import myapp.dao.MemberDao;
+import myapp.dao.MemberListDao;
+import myapp.handler.BoardAddListener;
+import myapp.handler.BoardDeleteListener;
+import myapp.handler.BoardListListener;
+import myapp.handler.BoardUpdateListener;
+import myapp.handler.BoardViewListener;
+import myapp.handler.FooterListener;
+import myapp.handler.HeaderListener;
+import myapp.handler.HelloListener;
+import myapp.handler.MemberAddListener;
+import myapp.handler.MemberDeleteListener;
+import myapp.handler.MemberListListener;
+import myapp.handler.MemberUpdateListener;
+import myapp.handler.MemberViewListener;
+import util.BreadcrumbPrompt;
+import util.Menu;
+import util.MenuGroup;
 
 public class App {
 
-  public static void main(String[] args) {
+  MemberDao memberDao = new MemberListDao("member.json");
+  BoardDao boardDao = new BoardListDao("board.json");
+  BoardDao readingDao = new BoardListDao("reading.json");
 
-    printTitle();
+  BreadcrumbPrompt prompt = new BreadcrumbPrompt();
 
-    printMenu();
+  MenuGroup mainMenu = new MenuGroup("메인");
 
-    while (true) {
-      String menuNo = Prompt.inputString("메인> ");
-      if (menuNo.equals("99")) {
-        break;
-      } else if (menuNo.equals("menu")) {
-        printMenu();
-      } else if (menuNo.equals("1")) {
-        MemberHandler.inputMember();
-      } else if (menuNo.equals("2")) {
-        MemberHandler.printMembers();
-      } else if (menuNo.equals("3")) {
-        MemberHandler.viewMember();
-      } else if (menuNo.equals("4")) {
-        MemberHandler.updateMember();
-      } else if (menuNo.equals("5")) {
-        MemberHandler.deleteMember();
-      } else if (menuNo.equals("6")) {
-        BoardHandler.inputBoard();
-      } else if (menuNo.equals("7")) {
-        BoardHandler.printBoards();
-      } else if (menuNo.equals("8")) {
-        //BoardHandler.viewBoard();
-      } else if (menuNo.equals("9")) {
-        //BoardHandler.updateBoard();
-      } else if (menuNo.equals("10")) {
-        //BoardHandler.deleteBoard();
-      } else {
-        System.out.println(menuNo);
-      }
-    }
-
-    // while (MemberHandler.available()) {
-    // MemberHandler.inputMember();
-    // if (!promptContinue()) {
-    // break;
-    // }
-    // }
-
-    // MemberHandler.printMembers();
-
-    Prompt.close();
+  public App() {
+    prepareMenu();
   }
 
-  static void printMenu() {
-    System.out.println("1. 회원등록");
-    System.out.println("2. 회원목록");
-    System.out.println("3. 회원조회");
-    System.out.println("4. 회원변경");
-    System.out.println("5. 회원삭제");
-    System.out.println("6. 게시글등록");
-    System.out.println("7. 게시글목록");
-    System.out.println("8. 게시글조회");
-    System.out.println("9. 게시글변경");
-    System.out.println("10. 게시글삭제");
-    System.out.println("99. 종료");
+  public static void main(String[] args) {
+    new App().execute();
   }
 
   static void printTitle() {
     System.out.println("나의 목록 관리 시스템");
     System.out.println("----------------------------------");
   }
+
+  public void execute() {
+    printTitle();
+
+    mainMenu.execute(prompt);
+
+    prompt.close();
+  }
+
+
+
+  private void prepareMenu() {
+    MenuGroup memberMenu = new MenuGroup("회원");
+    memberMenu.add(new Menu("등록", new MemberAddListener(memberDao)));
+    memberMenu.add(new Menu("목록", new MemberListListener(memberDao)));
+    memberMenu.add(new Menu("조회", new MemberViewListener(memberDao)));
+    memberMenu.add(new Menu("변경", new MemberUpdateListener(memberDao)));
+    memberMenu.add(new Menu("삭제", new MemberDeleteListener(memberDao)));
+    mainMenu.add(memberMenu);
+
+    MenuGroup boardMenu = new MenuGroup("게시글");
+    boardMenu.add(new Menu("등록", new BoardAddListener(boardDao)));
+    boardMenu.add(new Menu("목록", new BoardListListener(boardDao)));
+    boardMenu.add(new Menu("조회", new BoardViewListener(boardDao)));
+    boardMenu.add(new Menu("변경", new BoardUpdateListener(boardDao)));
+    boardMenu.add(new Menu("삭제", new BoardDeleteListener(boardDao)));
+    mainMenu.add(boardMenu);
+
+    MenuGroup readingMenu = new MenuGroup("독서록");
+    readingMenu.add(new Menu("등록", new BoardAddListener(readingDao)));
+    readingMenu.add(new Menu("목록", new BoardListListener(readingDao)));
+    readingMenu.add(new Menu("조회", new BoardViewListener(readingDao)));
+    readingMenu.add(new Menu("변경", new BoardUpdateListener(readingDao)));
+    readingMenu.add(new Menu("삭제", new BoardDeleteListener(readingDao)));
+    mainMenu.add(readingMenu);
+
+    Menu helloMenu = new Menu("안녕!");
+    helloMenu.addActionListener(new HeaderListener());
+    helloMenu.addActionListener(new HelloListener());
+    helloMenu.addActionListener(new FooterListener());
+    mainMenu.add(helloMenu);
+  }
+
 }
