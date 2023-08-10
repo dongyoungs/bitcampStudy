@@ -7,8 +7,9 @@
 //  */
 
 plugins {
-    id 'application'
-    id 'eclipse'
+    id 'java'
+    id 'eclipse-wtp' // web tool plugin
+    id 'war'
 }
 
 
@@ -17,11 +18,19 @@ repositories {
 }
 
 dependencies {
-    implementation project(':app-common')
+    //implementation project(':app-common')
+    
+    // MySQL ODBC Driver
+    implementation 'mysql:mysql-connector-java:8.0.33'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    //implementation 'com.google.code.gson:gson:2.10.1'
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'org.mybatis:mybatis:3.5.13'
+    
+    //Servlet API
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    
 }
 
 java {
@@ -30,52 +39,16 @@ java {
     }
 }
 
-application {
-    mainClass = 'myapp.ServerApp'
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
-// // 자바 소스를 컴파일 할 때 적용할 옵션
-// tasks.withType(JavaCompile) {
-//     // 프로젝트의 소스 파일 인코딩을 gradle에게 알려준다.
-//     // $javac -encoding UTF-8 ..
-//     options.encoding = 'UTF-8' 
 
-//     // 소스 파일을 작성할 때 사용할 자바 버전
-//     sourceCompatibility = '17'
-
-//     // 자바 클래스를 실행시킬 JVM의 최소 버전
-//     targetCompatibility = '17'
-// }
-
-// plugins {
-//     // 자바 소스를 컴파일할 때 사용할 도구를 추가한다.
-//     // 뿐만 아니라 eclipse 플러그인과 결합해서
-//     // eclipse IDE의 자바 관련 설정 파일을 생성할 때도 사용한다.
-//     // 예) .classpath, .settings/*
-//     id 'java'  
-
-//     // 이클립스 관련 파일을 다룰 때 사용할 도구를 추가한다.
-//     // 예) .project
-//     id 'eclipse' 
-// }
-
-// 자바 소스를 컴파일 할 때 적용할 옵션
 tasks.withType(JavaCompile) {
-    // 프로젝트의 소스 파일 인코딩을 gradle에게 알려준다.
-    // $javac -encoding UTF-8 ..
     options.encoding = 'UTF-8' 
-
-    // 소스 파일을 작성할 때 사용할 자바 버전
     sourceCompatibility = '17'
-
-    // 자바 클래스를 실행시킬 JVM의 최소 버전
     targetCompatibility = '17'
 }
 
-// eclipse 프로젝트 이름을 설정하기
 eclipse {
     project {
         name = "myapp-server"
@@ -85,5 +58,21 @@ eclipse {
       targetCompatibility = 17
       javaRuntimeName = "JavaSE-17"
     }
+    wtp {
+        facet {
+            //you can add some extra wtp facets or update existing ones; mandatory keys: 'name', 'version':
+            facet name: 'jst.java', version: '17'
+            //facet name: 'jst.web', version: '4.0'
+        }
+        component {
+            contextPath = '/'
+            //deployName = 'web'
+        }
+    }
 }
+war {
+    archiveBaseName = "practiceApp"
+}
+
+
 

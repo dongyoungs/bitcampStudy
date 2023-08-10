@@ -1,6 +1,8 @@
 package myapp.vo;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Board implements Serializable {
 
@@ -12,23 +14,12 @@ public class Board implements Serializable {
   private int no;
   private String title;
   private String content;
-  private String writer;
+  private Member writer;
   private String password;
   private int viewCount;
-  private long createdDate;
+  private Timestamp createdDate;
+  private int category;
 
-
-  public Board() {
-    this.createdDate = System.currentTimeMillis();
-  }
-  //  public Board() {
-  //    this.no = boardNo++;
-  //    this.createdDate = System.currentTimeMillis();
-  //  }
-  public Board(int num) {
-    this.no = num;
-    this.createdDate = System.currentTimeMillis();
-  }
 
   public int getNo() {
     return no;
@@ -48,10 +39,10 @@ public class Board implements Serializable {
   public void setContent(String content) {
     this.content = content;
   }
-  public String getWriter() {
+  public Member getWriter() {
     return writer;
   }
-  public void setWriter(String writer) {
+  public void setWriter(Member writer) {
     this.writer = writer;
   }
   public int getViewCount() {
@@ -60,10 +51,10 @@ public class Board implements Serializable {
   public void setViewCount(int viewCount) {
     this.viewCount = viewCount;
   }
-  public long getCreatedDate() {
+  public Timestamp getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(long createdDate) {
+  public void setCreatedDate(Timestamp createdDate) {
     this.createdDate = createdDate;
   }
   public String getPassword() {
@@ -73,23 +64,26 @@ public class Board implements Serializable {
     this.password = password;
   }
 
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(no);
+  }
   @Override
   public boolean equals(Object obj) {
-    if (obj == null) {
+    if (this == obj)
+      return true;
+    if (obj == null)
       return false;
-    }
-    if(this.getClass() != obj.getClass()) {
+    if (getClass() != obj.getClass())
       return false;
-    }
-    //위 조건에서 this가 가리키는 인스턴스의 클래스와
-    //파라미터 obj가 가리키는 인스턴스의 클래스가
-    //같다고 결론이 났기 때문에, obj-->Member 클래스로
-    // 형변환 한다.
-    Board m = (Board)obj;
-    if(this.getNo() != m .getNo()) {
-      return false;
-    }
-    return true;
-
+    Board other = (Board) obj;
+    return no == other.no;
+  }
+  public int getCategory() {
+    return category;
+  }
+  public void setCategory(int category) {
+    this.category = category;
   }
 }
